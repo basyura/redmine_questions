@@ -71,8 +71,14 @@ private
 
   def find_topics
     seach = params[:q] || params[:topic_search]
+    include_content = params[:include_content]
 
-    columns = ["subject", "content"]
+    puts "*****************"
+    puts include_content
+    puts "*****************"
+
+
+    columns = include_content == 'checked' ? ["subject", "content"] : ["subject"]
     tokens = seach.to_s.scan(%r{((\s|^)"[\s\w]+"(\s|$)|\S+)}).collect{|m| m.first.gsub(%r{(^\s*"\s*|\s*"\s*$)}, '')}.uniq.select {|w| w.length > 1 }
     tokens = [] << tokens unless tokens.is_a?(Array)
     token_clauses = columns.collect {|column| "(LOWER(#{column}) LIKE ?)"}
@@ -95,6 +101,7 @@ private
     @offset = @topic_pages.current.offset  
     scope = scope.scoped :limit  => @limit, :offset => @offset
     @topics = scope    
+    @include_content = include_content
   end
 
   def find_topic

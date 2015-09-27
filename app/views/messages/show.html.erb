@@ -31,11 +31,9 @@
 </div>
 
 <div class="message details">
-    <h2><%=h @topic.subject %></h2>
+    <h2 class="topic-subject"><%=h @topic.subject %></h2>
     <%= avatar(@topic.author, :size => "32") %>
-    <p class="author"><%= link_to_user @topic.author %><br>
-       <%= l(:label_questions_added_time, :value => time_tag(@topic.created_on)).html_safe %>
-    </p>
+    <span class="author"><%= link_to_user @topic.author %> <%= l(:label_questions_added_time, :value => time_tag(@topic.created_on)).html_safe %> </span>
     <div class="wiki">
       <%= textilizable(@topic, :content) %>
     </div>
@@ -90,8 +88,7 @@
 <% end %>
 
 <% if !@topic.locked? && authorize_for('messages', 'reply') %>
-<p><%= toggle_link l(:button_reply), "reply", :focus => 'message_content' %></p>
-<div id="reply" style="display:none;">
+<div id="reply">
 <%= form_for @reply, :as => :reply, :url => {:action => 'reply', :id => @topic}, :html => {:multipart => true, :id => 'message-form'} do |f| %>
   <%= render :partial => 'form', :locals => {:f => f, :replying => true} %>
   <%= submit_tag l(:button_submit) %>
@@ -103,7 +100,6 @@
 
 
 <% content_for :sidebar do %>  
-  <h3><%= l(:label_questions_message) %></h3>
   <ul class="question-meta">
     <li class="votes icon icon-vote">
       <%= l(:label_questions_votes, :count => @topic.count_votes_up - @topic.count_votes_down ) %>
@@ -120,18 +116,6 @@
       %>
     </li>      
     <% end %>
-  </ul>
-
-  <h3><%= l(:label_questions_related_messages) %></h3>
-  <ul class="related-topics">
-    <%#  Board.all.map(&:topics).flatten.first(5).each do |topic| %>
-    <% tokens = @topic.subject.strip.scan(%r{((\s|^)"[\s\w]+"(\s|$)|\S+)}).collect {|m| m.first.gsub(%r{(^\s*"\s*|\s*"\s*$)}, '')} || "" %>
-    <% related_topics = Message.search(tokens, @project, :limit => 5)[0].select{|m| m != @topic && m.parent_id == nil }.compact if tokens %>
-    <% related_topics.each do |topic| %>
-    <li class="related-topic">
-      <%= link_to h(topic.subject), { :controller => 'messages', :action => 'show', :board_id => topic.board, :id => topic } %>
-    </li>
-    <% end if related_topics %>
   </ul>
 
 

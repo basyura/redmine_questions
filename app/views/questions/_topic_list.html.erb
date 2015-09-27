@@ -5,18 +5,25 @@
   </div>
   <% end %>
   <div id="topics_container">
-    <% @topics.each do |topic| %>
-      <div class="topic">
-        <h3 class="subject">
-          <%= link_to h(topic.subject), { :controller => 'messages', :action => 'show', :board_id => topic.board, :id => topic } %>
-        </h3>
-        <p><%= truncate(topic.content.gsub(/\r\n/, ' ').strip , :length => 100) %></p>
-        <ul class="meta">
-            <li class="votes icon icon-vote"><%= l(:label_questions_votes, :count => topic.count_votes_up - topic.count_votes_down ) %></li>
-            <li class="answers icon icon-comment"><%= l(:label_questions_answers, :count => topic.replies_count) %></li>
-        </ul>        
-      </div>
-    <% end %>
+    <table class="list topics">
+      <th></th><th>title</th><th>last updated</th>
+      <% @topics.each do |topic| %>
+        <tr class="<%= cycle('odd', 'even') %>">
+          <td>
+            <span class="votes icon icon-vote"><%= topic.count_votes_up - topic.count_votes_down  %></span>
+            <span class="answers icon icon-comment"><%= topic.replies_count %></span>
+          </td>
+          <td class="subject">
+            <%= link_to h(topic.subject), { :controller => 'messages', :action => 'show', :board_id => topic.board, :id => topic } %>
+          </td>
+          <td>
+            <% if topic.board.last_message %>
+              <%= authoring topic.board.last_message.created_on, topic.board.last_message.author %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </table>
 
   </div>
   <% if @topic_pages %>

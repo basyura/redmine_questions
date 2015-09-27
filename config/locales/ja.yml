@@ -1,10 +1,10 @@
 # English strings go here for Rails i18n
-en:
-  label_questions: 'Help & Support'
-  label_questions_search: 'Search for a specific question, answer or topic ...'
+ja:
+  label_questions: 'フォーラム'
+  label_questions_search: '検索'
   label_questions_new: New question
   label_questions_message: Message
-  label_questions_added_time: "Added %{value} ago"
+  label_questions_added_time: "が %{value} 前に追加"
   label_questions_related_messages: Related messages
   label_questions_latest_messages: Latest messages
   label_questions_views: '%{count} views'
@@ -15,7 +15,7 @@ en:
   label_questions_notice_message: Notice message
   label_questions_notice: Notice
   label_questions_most_voted: Most voted
-  label_include_content: Include content
+  label_include_content: 本文も検索
 
   button_questions_vote: Vote
   button_questions_unvote: Unvote

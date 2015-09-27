@@ -69,6 +69,10 @@ div.topic  ul.meta li {
   list-style: none;
 }
 
+#topics_container {
+  margin-top:20px;
+}
+
 #topics_list div.title-bar h4 {
   padding: 15px 0;
   border-bottom: 1px dotted #bbb;
