@@ -21,6 +21,7 @@ en:
   button_questions_unvote: Unvote
   button_questions_like: Like
   button_questions_unlike: Unlike
+  button_comment: Comment
 
   field_questions_tags: Tags
 
